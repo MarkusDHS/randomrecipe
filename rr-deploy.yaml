@@ -24,6 +24,7 @@ spec:
         - containerPort: 80
           name: test
           protocol: TCP
+          nodePort: 30000
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
