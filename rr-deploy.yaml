@@ -4,7 +4,6 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "3"
     field.cattle.io/publicEndpoints: '[{"addresses":["192.168.30.74"],"port":30000,"protocol":"TCP","serviceName":"default:webapp-nodeport","allNodes":true}]'
-  creationTimestamp: "2022-05-27T08:41:09Z"
   generation: 4
   labels:
     workload.user.cattle.io/workloadselector: apps.deployment-default-webapp
@@ -59,7 +58,6 @@ metadata:
             f:terminationGracePeriodSeconds: {}
     manager: agent
     operation: Update
-    time: "2022-05-27T08:44:45Z"
   - apiVersion: apps/v1
     fieldsType: FieldsV1
     fieldsV1:
@@ -94,11 +92,8 @@ metadata:
     manager: kube-controller-manager
     operation: Update
     subresource: status
-    time: "2022-05-27T08:44:54Z"
   name: webapp
   namespace: default
-  resourceVersion: "3818481"
-  uid: 7170a83b-b193-4530-be9b-9e880ca43ca2
 spec:
   progressDeadlineSeconds: 600
   replicas: 3
@@ -134,22 +129,3 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 3
-  conditions:
-  - lastTransitionTime: "2022-05-27T08:41:44Z"
-    lastUpdateTime: "2022-05-27T08:41:44Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2022-05-27T08:41:09Z"
-    lastUpdateTime: "2022-05-27T08:44:54Z"
-    message: ReplicaSet "webapp-5f94bdc698" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 4
-  readyReplicas: 3
-  replicas: 3
-  updatedReplicas: 3
