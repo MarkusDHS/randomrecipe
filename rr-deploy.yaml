@@ -20,11 +20,6 @@ spec:
       - image: markusdhs/randomrecipe:v1.2
         imagePullPolicy: Always
         name: container-0
-        ports:
-        - port: 80
-          name: test
-          targetPort: 80
-          nodePort: 30000
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
