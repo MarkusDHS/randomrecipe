@@ -17,15 +17,19 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-default-randomrecipe
     spec:
       containers:
-        - imagePullPolicy: Always
-          name: container-0
-          image: markusdhs/randomrecipe:v1.2
-          ports:
-            - name: port
-              expose: true
-              protocol: TCP
-              containerPort: 80
-              serviceType: NodePort
-              ipam: dhcp
-              listeningPort: 30000
+      - image: markusdhs/randomrecipe:v1.2
+        imagePullPolicy: Always
+        name: container-0
+        ports:
+        - containerPort: 80
+          name: test
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
   replicas: 3
