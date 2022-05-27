@@ -19,14 +19,13 @@ spec:
       containers:
         - imagePullPolicy: Always
           name: container-0
-          __active: true
           image: markusdhs/randomrecipe:v1.2
           ports:
             - name: port
               expose: true
               protocol: TCP
               containerPort: 80
-              _serviceType: NodePort
-              _ipam: dhcp
-              _listeningPort: 30000
+              serviceType: NodePort
+              ipam: dhcp
+              listeningPort: 30000
   replicas: 3
