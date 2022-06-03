@@ -9,9 +9,5 @@ spec:
   ports:
     # Which port on the node is the service available through?
     - nodePort: 30000
-
-    # Inside the cluster, what port does the service expose?
-    - port: 80
-
-    # Which port do pods selected by this service expose?
-    - targetPort: 80
+      port: 80
+      targetPort: 80
