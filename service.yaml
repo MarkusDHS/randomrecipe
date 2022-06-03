@@ -5,7 +5,8 @@ metadata:
 spec:
   # Make the service externally visible via the node
   type: NodePort 
-
+  selector:
+    workload.user.cattle.io/workloadselector=apps.deployment-default-randomrecipe
   ports:
     # Which port on the node is the service available through?
     - nodePort: 30000
