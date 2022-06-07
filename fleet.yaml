@@ -1,0 +1,11 @@
+defaultNamespace: default
+namespace: default
+kustomize:
+  dir: . 
+
+targetCustomizations:
+ - name: prod
+   clusterSelector:
+     matchLabels:
+       env: prod
+   clusterGroup: dscclusters
