@@ -5,6 +5,6 @@ kustomize:
 
 targetCustomizations:
  - name: prod
-   clusterSelector:
-     matchLabels:
-       env: prod
+   clusterGroup: dscclusters
+   kustomize:
+     dir: overlays/test
