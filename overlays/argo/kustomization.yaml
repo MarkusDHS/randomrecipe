@@ -1,5 +1,4 @@
 resources:
 - ../../base
 patches:
-- rr-deploy.yaml
 - service.yaml
