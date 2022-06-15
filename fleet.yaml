@@ -7,4 +7,4 @@ targetCustomizations:
  - name: prod
    clusterGroup: dscclusters
    kustomize:
-     dir: overlays/test
+     dir: overlays/fleet
