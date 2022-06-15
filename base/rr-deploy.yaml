@@ -6,7 +6,6 @@ metadata:
     {}
   labels:
     workload.user.cattle.io/workloadselector: apps.deployment-default-randomrecipe
-  namespace: default
 spec:
   selector:
     matchLabels:
