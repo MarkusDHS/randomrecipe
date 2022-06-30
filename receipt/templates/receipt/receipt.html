@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<!-- Author: Markus Schattauer -->
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="rgb(0,20,60)">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Random Recipe</title>
+
+</head>
+
+<script>
+</script>
+
+<style>
+    .containers {
+        width: 1350px;
+        max-width: 90%;
+        margin: 0 auto;
+        padding: 0px 0px;
+        overflow: auto;
+        background-color: rgba(255, 255, 255, 0.00);
+        min-height: 100%;
+    }
+    .navi{
+        font-size: 3rem;
+    }
+</style>
+
+<body>
+    <div class="main-background" >
+        <div class="containers">
+            <header class="navileiste">
+                <div class="navi-div-a">
+                    <a href="{% url 'main' %}" class="navi">Random Recipe</a>
+                </div>
+            </header>
+
+            <div class="Inhalt">
+                <div class="blockcontent">
+                    <h3>Dein zufälliges Rezept: {{ receipt.name }}</h3>
+                    <p>Zutaten: {{ receipt.ingredients }} </p>
+                    <p>Anleitung: {{ receipt.instructions }} </p>
+                    
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+    </div>
+</body>
+
+</html>
