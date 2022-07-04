@@ -45,4 +45,3 @@ jobs:
       run: docker tag randomrecipe markusdhs/randomrecipe:latest
     - name: Push the Docker image
       run: docker push markusdhs/randomrecipe:latest
-
