@@ -37,10 +37,9 @@ jobs:
     needs: [build]
     steps:
     - uses: actions/checkout@v3
-    - name: Load Dockerhub Password from secret
+    - name: Login to Dockerhub
       with: # Set the secret as an input
         password: ${{ secrets.DOCKERHUB_PASSWORD }}#
-    - name: Login to Dockerhub
       run: docker login --username markudhs --password $password
     - name: Tag the Docker image
       run: docker tag randomrecipe markusdhs/randomrecipe:latest
