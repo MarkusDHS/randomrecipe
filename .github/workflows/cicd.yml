@@ -40,7 +40,7 @@ jobs:
     - name: Login to Dockerhub
       env: 
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      run: docker login --username markudhs --password $password
+      run: docker login --username markudhs --password "$password"
     - name: Tag the Docker image
       run: docker tag randomrecipe markusdhs/randomrecipe:latest
     - name: Push the Docker image
