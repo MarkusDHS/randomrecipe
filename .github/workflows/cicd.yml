@@ -29,6 +29,10 @@ jobs:
     needs: [test]
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      with:
+        path: /var/lib/docker/
+        key: docker
     - name: Build the Docker image
       run: docker build . --file Dockerfile -t randomrecipe
 
