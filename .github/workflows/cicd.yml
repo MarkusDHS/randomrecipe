@@ -29,13 +29,13 @@ jobs:
     needs: [test]
     steps:
     - uses: actions/checkout@v3
-    - run: sudo chmod a+rw -R /var/lib/docker
+    - run: sudo chmod 777 -R /var/lib/docker
     - name: Cache docker
       id: docker
       uses: actions/cache@v3
       with:
         path: /var/lib/docker/
-        key: docker
+        key: docker-$(git rev-parse --short "$GITHUB_SHA")
     - name: Build the Docker image
       run: docker build . --file Dockerfile -t randomrecipe
 
@@ -44,7 +44,7 @@ jobs:
     needs: [build]
     steps:
     - uses: actions/checkout@v3
-    - run: sudo chmod a+rw -R /var/lib/docker
+    - run: sudo chmod 777 -R /var/lib/docker
     #- name: Cache docker
     #  id: docker
     #  uses: actions/cache@v3
