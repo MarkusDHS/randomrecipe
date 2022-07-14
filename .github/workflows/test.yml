@@ -18,9 +18,10 @@ jobs:
         key: test
     #- run: touch test
    # - run: echo "Bla" > test
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile -t randomrecipe
-    - run: sudo chmod 664 -R /var/lib/docker
+  #  - name: Build the Docker image
+  #    run: docker build . --file Dockerfile -t randomrecipe
+  #  - run: sudo chmod 664 -R /var/lib/docker
+    - run: docker info
 
   delivery:
     runs-on: ubuntu-latest
