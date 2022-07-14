@@ -10,28 +10,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: id
     - name: Cache test
       id: test
       uses: actions/cache@v3
       with:
-        path: ./test
+        path: /var/lib/docker
         key: test
-    - run: touch test
-    - run: echo "Bla" > test
-
+    #- run: touch test
+   # - run: echo "Bla" > test
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile -t randomrecipe
+    - run: sudo chmod 664 -R /var/lib/docker
 
   delivery:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
     - uses: actions/checkout@v3
-    - run: id
-
     - name: Cache test
       id: test
       uses: actions/cache@v3
       with:
-        path: ./test
+        path: /var/lib/docker
         key: test
-    - run: cat test
+   # - run: cat test
+    - name: Login to Dockerhub
+      env: 
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: docker login --username markusdhs --password "$password"
+    - name: Tag the Docker image
+      run: docker tag randomrecipe markusdhs/randomrecipe:latest
+    - name: Push the Docker image
+      run: docker push markusdhs/randomrecipe:latest
