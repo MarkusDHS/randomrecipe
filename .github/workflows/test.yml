@@ -27,10 +27,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: id
+
+    - name: Cache test
+      id: test
+      uses: actions/cache@v3
+      with:
+        path: ./test
+        key: test
     - run: cat test
-   # - name: Cache test
-   #   id: test
-   #   uses: actions/cache@v3
-   #   with:
-   #     path: ./test
-   #     key: test
