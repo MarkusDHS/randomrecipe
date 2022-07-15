@@ -14,12 +14,13 @@ jobs:
       id: test
       uses: actions/cache@v3
       with:
-        path: Dockerfile
+        path: /var/lib/docker/image/
         key: test
     #- run: touch test
    # - run: echo "Bla" > test
-   # - name: Build the Docker image
-   #   run: docker build . --file Dockerfile -t randomrecipe
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile -t randomrecipe
+    - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
    # - run: sudo chmod 664 -R /var/lib/containers/
 
   delivery:
@@ -31,9 +32,9 @@ jobs:
       id: test
       uses: actions/cache@v3
       with:
-        path: Dockerfile
+        path: /var/lib/docker/image/
         key: test
-    - run: cat Dockerfile
+    - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
    # - run: cat test
    # - name: Login to Dockerhub
    #   env: 
