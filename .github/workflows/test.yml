@@ -34,7 +34,7 @@ jobs:
       with:
         path: /var/lib/docker/image/
         key: test
-    - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
+    - run: sudo ls
    # - run: cat test
    # - name: Login to Dockerhub
    #   env: 
