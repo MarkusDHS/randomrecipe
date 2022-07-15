@@ -14,13 +14,13 @@ jobs:
       id: test
       uses: actions/cache@v3
       with:
-        path: /var/lib/containers/
+        path: Dockerfile
         key: test
     #- run: touch test
    # - run: echo "Bla" > test
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile -t randomrecipe
-    - run: sudo chmod 664 -R /var/lib/containers/
+   # - name: Build the Docker image
+   #   run: docker build . --file Dockerfile -t randomrecipe
+   # - run: sudo chmod 664 -R /var/lib/containers/
 
   delivery:
     runs-on: ubuntu-latest
@@ -31,14 +31,16 @@ jobs:
       id: test
       uses: actions/cache@v3
       with:
-        path: /var/lib/containers/
+        path: Dockerfile
         key: test
+    - run: cat Dockerfile
    # - run: cat test
-    - name: Login to Dockerhub
-      env: 
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      run: docker login --username markusdhs --password "$password"
-    - name: Tag the Docker image
-      run: docker tag randomrecipe markusdhs/randomrecipe:latest
-    - name: Push the Docker image
-      run: docker push markusdhs/randomrecipe:latest
+   # - name: Login to Dockerhub
+   #   env: 
+    #    password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    #  run: docker login --username markusdhs --password "$password"
+    #- name: Tag the Docker image
+     # run: docker tag randomrecipe markusdhs/randomrecipe:latest
+   # - name: Push the Docker image
+   #   run: docker push markusdhs/randomrecipe:latest
+   
