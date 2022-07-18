@@ -23,7 +23,7 @@ jobs:
       run: docker build . --file Dockerfile -t randomrecipe
     - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
     - run: sudo docker images
-    - run: sudo chmod 755 -R /var/lib/docker/image/
+    - run: sudo chmod 777 -R /var/lib/docker/image/
 
   delivery:
     runs-on: ubuntu-latest
