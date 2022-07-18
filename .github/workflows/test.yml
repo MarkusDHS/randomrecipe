@@ -38,18 +38,15 @@ jobs:
         path: /var/lib/docker/image/
         key: test
     - run: sudo chmod 777 -R /var/lib/docker/
-    - run: sudo ls
-    - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
-    - run: sudo docker images
     - run: sudo systemctl restart docker
     - run: sudo docker images
    # - run: cat test
-   # - name: Login to Dockerhub
-   #   env: 
-    #    password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    #  run: docker login --username markusdhs --password "$password"
-    #- name: Tag the Docker image
-     # run: docker tag randomrecipe markusdhs/randomrecipe:latest
-   # - name: Push the Docker image
-   #   run: docker push markusdhs/randomrecipe:latest
+    - name: Login to Dockerhub
+      env: 
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: docker login --username markusdhs --password "$password"
+    - name: Tag the Docker image
+      run: docker tag randomrecipe markusdhs/randomrecipe:latest
+    - name: Push the Docker image
+      run: docker push markusdhs/randomrecipe:latest
    
