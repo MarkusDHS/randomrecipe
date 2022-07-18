@@ -16,7 +16,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /var/lib/docker/image/
-        key: test-$(git rev-parse --short "$GITHUB_SHA")
+        key: test-${{github.sha}}
     #- run: touch test
    # - run: echo "Bla" > test
     - name: Build the Docker image
@@ -36,7 +36,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /var/lib/docker/image/
-        key: test-$(git rev-parse --short "$GITHUB_SHA")
+        key: test-${{github.sha}}
     - run: sudo chmod 777 -R /var/lib/docker/
     - run: sudo systemctl restart docker
     - run: sudo docker images
