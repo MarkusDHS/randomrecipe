@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: sudo chmod 777 -R /var/lib/docker/
+    - run: sudo chmod 777 -R /var/lib/docker/image/
     - name: Cache test
       id: test
       uses: actions/cache@v3
@@ -23,21 +23,20 @@ jobs:
       run: docker build . --file Dockerfile -t randomrecipe
     - run: sudo ls /var/lib/docker/image/overlay2/imagedb/content/sha256
     - run: sudo docker images
-    - run: sudo chmod 777 -R /var/lib/docker/
+    - run: sudo chmod 755 -R /var/lib/docker/image/
 
   delivery:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
     - uses: actions/checkout@v3
-    - run: sudo chmod 777 -R /var/lib/docker/
     - name: Cache test
       id: test
       uses: actions/cache@v3
       with:
         path: /var/lib/docker/image/
         key: test-${{github.event.pull_request.head.sha}}
-    - run: sudo chmod 777 -R /var/lib/docker/
+    - run: sudo chmod 777 -R /var/lib/docker/image/
     - run: sudo systemctl restart docker
     - run: sudo docker images
    # - run: cat test
