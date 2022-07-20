@@ -1,0 +1,43 @@
+name: test
+
+on:
+  pull_request:
+    branches: [ '**' ]
+    
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache test
+      id: test
+      uses: actions/cache@v3
+      with:
+        path: ./rr.tar
+        key: test-${{github.event.pull_request.head.sha}}
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile -t randomrecipe
+    - run: sudo docker save --output rr.tar randomrecipe
+
+  delivery:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Cache test
+      id: test
+      uses: actions/cache@v3
+      with:
+        path: ./rr.tar
+        key: test-${{github.event.pull_request.head.sha}}
+    - run: sudo docker load --input rr.tar
+    - name: Login to Dockerhub
+      env: 
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: docker login --username markusdhs --password "$password"
+    - name: Tag the Docker image
+      run: docker tag randomrecipe markusdhs/randomrecipe:latest
+    - name: Push the Docker image
+      run: docker push markusdhs/randomrecipe:latest
+   
