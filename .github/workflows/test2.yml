@@ -19,6 +19,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile -t randomrecipe
     - run: sudo docker save --output rr.tar randomrecipe
+    - run: sudo chmod 777 rr.tar
 
   delivery:
     runs-on: ubuntu-latest
