@@ -8,10 +8,3 @@ targetCustomizations:
    clusterGroup: dscclusters
    kustomize:
      dir: overlays/fleet
-
-
-
-
-
-
-
