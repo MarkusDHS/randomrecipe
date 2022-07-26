@@ -6,7 +6,7 @@ on:
     
 jobs:
   test:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version: [3.8]
@@ -25,7 +25,7 @@ jobs:
         python manage.py test
   
   build-delivery:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [test]
     steps:
     - uses: actions/checkout@v3
@@ -36,6 +36,29 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
       run: docker login --username markusdhs --password "$password"
     - name: Tag the Docker image
-      run: docker tag randomrecipe markusdhs/randomrecipe:latest
+      run: docker tag randomrecipe markusdhs/randomrecipe:${{github.event.pull_request.head.sha}
     - name: Push the Docker image
-      run: docker push markusdhs/randomrecipe:latest
+      run: docker push markusdhs/randomrecipe:${{github.event.pull_request.head.sha}
+  
+  trivy:
+    runs-on: ubuntu-20.04
+    needs: [build-delivery]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        with:
+          image-ref: 'docker.io/markusdhs/randomrecipe:${{github.event.pull_request.head.sha}'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  
