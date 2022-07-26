@@ -1,4 +1,4 @@
-FROM python
+FROM python:3.9-alpine3.15
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir /app
