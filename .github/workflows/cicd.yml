@@ -56,11 +56,17 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           exit-code: 1
-      - run: cat trivy-results.sarif
 
       - name: Upload Trivy scan results to GitHub Security tab
+        if: always()
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
 
-  
+  testjj:
+    runs-on: ubuntu-20.04
+    needs: [trivy]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - run: echo "das sollte net gehen"
