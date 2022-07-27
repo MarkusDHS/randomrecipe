@@ -63,10 +63,19 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
-  testjj:
+  proddelivery:
     runs-on: ubuntu-20.04
     needs: [trivy]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - run: echo "das sollte net gehen"
+      - name: Pull the Docker image
+        run: docker pull markusdhs/randomrecipe:${{github.event.pull_request.head.sha}}
+      - name: Login to Dockerhub
+        env: 
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login --username markusdhs --password "$password"
+      - name: Tag the Docker image
+        run: docker tag randomrecipe:${{github.event.pull_request.head.sha}} markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+      - name: Push the Docker image
+        run: docker push markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
