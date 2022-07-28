@@ -76,6 +76,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: docker login --username markusdhs --password "$password"
       - name: Tag the Docker image
-        run: docker tag randomrecipe:${{github.event.pull_request.head.sha}} markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+        run: docker tag markusdhs/randomrecipe:${{github.event.pull_request.head.sha}} markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
       - name: Push the Docker image
         run: docker push markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
