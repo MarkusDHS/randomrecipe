@@ -28,13 +28,14 @@ jobs:
           cd ~/rrenv/base/
           python editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
       - name: pushing the changes
+        env: 
+          ghpassword: ${{ secrets.GH_PASSWORD }}
         run: |
           cd ~/rrenv
+          git remote add rrenv https://MarkusDHS:$ghpassword@github.com/MarkusDHS/rrenv
           git add .
           git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}"
       - name: pushing the changes
-        env: 
-          gh-password: ${{ secrets.GH_PASSWORD }}
         run: |
           cd ~/rrenv
-          git push https://MarkusDHS:$gh-password@github.com/MarkusDHS/rrenv master
+          git push rrenv master
