@@ -22,7 +22,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Edit Yaml
         run: |
-          python /base/editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+          python rrenv/base/editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+          ls
       - name: pushing the changes
         run: |
           git remote add env https://github.com/MarkusDHS/rrenv
