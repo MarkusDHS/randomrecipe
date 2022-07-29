@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ 'branchlol' ]
+    branches: [ '**' ]
     
 jobs:
   test:
@@ -79,3 +79,38 @@ jobs:
         run: docker tag markusdhs/randomrecipe:${{github.event.pull_request.head.sha}} markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
       - name: Push the Docker image
         run: docker push markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+
+  initializedeploy:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [3.8]
+    needs: [proddelivery]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Clone git Repo
+        run: |
+          cd ~
+          git config --global user.name "MarkusDHS"
+          git clone https://github.com/MarkusDHS/rrenv
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Edit Yaml
+        run: |
+          cd ~/rrenv/base/
+          python editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+      - name: pushing the changes
+        env: 
+          ghpassword: ${{ secrets.GH_PASSWORD }}
+        run: |
+          cd ~/rrenv
+          git remote add rrenv https://MarkusDHS:$ghpassword@github.com/MarkusDHS/rrenv
+          git add .
+          git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}"
+      - name: pushing the changes
+        run: |
+          cd ~/rrenv
+          git push rrenv master
