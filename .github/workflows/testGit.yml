@@ -3,8 +3,9 @@ name: CI
 on:
   pull_request:
     branches: [ '**' ]
-    
-initializedeploy:
+  
+jobs:
+  initializedeploy:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
