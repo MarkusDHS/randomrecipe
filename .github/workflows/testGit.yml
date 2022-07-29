@@ -31,5 +31,5 @@ jobs:
           cd ~/rrenv
           git remote add env https://github.com/MarkusDHS/rrenv
           git add .
-          git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}
+          git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}"
           git push env master
