@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [ '**' ]
+  push:
+    branches: [ 'main' ]
     
 jobs:
   test:
@@ -36,9 +36,9 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
       run: docker login --username markusdhs --password "$password"
     - name: Tag the Docker image
-      run: docker tag randomrecipe markusdhs/randomrecipe:${{github.event.pull_request.head.sha}}
+      run: docker tag randomrecipe markusdhs/randomrecipe:$(git rev-parse --short "$GITHUB_SHA")
     - name: Push the Docker image
-      run: docker push markusdhs/randomrecipe:${{github.event.pull_request.head.sha}}
+      run: docker push markusdhs/randomrecipe:$(git rev-parse --short "$GITHUB_SHA")
   
   trivy:
     runs-on: ubuntu-20.04
@@ -50,7 +50,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
-          image-ref: 'docker.io/markusdhs/randomrecipe:${{github.event.pull_request.head.sha}}'
+          image-ref: 'docker.io/markusdhs/randomrecipe:$(git rev-parse --short "$GITHUB_SHA")'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
@@ -70,15 +70,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Pull the Docker image
-        run: docker pull markusdhs/randomrecipe:${{github.event.pull_request.head.sha}}
+        run: docker pull markusdhs/randomrecipe:$(git rev-parse --short "$GITHUB_SHA")
       - name: Login to Dockerhub
         env: 
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: docker login --username markusdhs --password "$password"
       - name: Tag the Docker image
-        run: docker tag markusdhs/randomrecipe:${{github.event.pull_request.head.sha}} markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+        run: docker tag markusdhs/randomrecipe:$(git rev-parse --short "$GITHUB_SHA") markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
       - name: Push the Docker image
-        run: docker push markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+        run: docker push markusdhs/prodrandomrecipe:$(git rev-parse --short "$GITHUB_SHA")
 
   initializedeploy:
     runs-on: ubuntu-20.04
@@ -101,7 +101,7 @@ jobs:
       - name: Edit Yaml
         run: |
           cd ~/rrenv/base/
-          python editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
+          python editYaml.py markusdhs/prodrandomrecipe:$(git rev-parse --short "$GITHUB_SHA")
       - name: pushing the changes
         env: 
           ghpassword: ${{ secrets.GH_PASSWORD }}
@@ -109,7 +109,7 @@ jobs:
           cd ~/rrenv
           git remote add rrenv https://MarkusDHS:$ghpassword@github.com/MarkusDHS/rrenv
           git add .
-          git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}"
+          git commit -m "New container Image for commit $(git rev-parse --short "$GITHUB_SHA")"
       - name: pushing the changes
         run: |
           cd ~/rrenv
