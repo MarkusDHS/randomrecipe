@@ -15,17 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Clone git Repo
-        run: git clone https://github.com/MarkusDHS/rrenv
+        run: |
+          cd ~
+          git clone https://github.com/MarkusDHS/rrenv
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Edit Yaml
         run: |
-          cd rrenv/base/
+          cd ~/rrenv/base/
           python editYaml.py markusdhs/prodrandomrecipe:${{github.event.pull_request.head.sha}}
       - name: pushing the changes
         run: |
+          cd ~/rrenv
           git remote add env https://github.com/MarkusDHS/rrenv
           git add .
           git commit -m "New container Image for commit ${{github.event.pull_request.head.sha}}
