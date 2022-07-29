@@ -17,6 +17,7 @@ jobs:
       - name: Clone git Repo
         run: |
           cd ~
+          git config --global user.name "MarkusDHS"
           git clone https://github.com/MarkusDHS/rrenv
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
